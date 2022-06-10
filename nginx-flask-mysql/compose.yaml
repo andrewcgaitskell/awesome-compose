@@ -17,6 +17,7 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - backnet
+      - frontnet
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
