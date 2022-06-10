@@ -55,4 +55,7 @@ secrets:
     file: password.txt
 networks:
   backnet:
+    driver: bridge
   frontnet:
+    driver: bridge
+    
