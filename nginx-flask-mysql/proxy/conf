@@ -2,6 +2,7 @@ server {
     listen       80;
     server_name  localhost;
     location / {
+        resolver           8.8.8.8;
         proxy_pass   http://backend:5000/;
     }
 
