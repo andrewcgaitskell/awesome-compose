@@ -47,7 +47,8 @@ services:
     depends_on: 
       - backend
     networks:
-      - frontnet
+       - backnet
+       - frontnet
 volumes:
   db-data:
 secrets:
