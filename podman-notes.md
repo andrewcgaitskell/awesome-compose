@@ -28,6 +28,10 @@ podman rm container-id
 
 podman rm -a
 
+## remove all images
+
+podman rmi -a
+
 ## remove images
 
 podman -rmi image-id
