@@ -36,6 +36,25 @@ podman rmi -a
 
 podman -rmi image-id
 
+## create image from Dockerfile
+
+podman build -t my-image-1 .
+
+## create pod with above image
+
+podman run -dt --pod new:frontend -p 8080:80 nginx
+
+# test with flask app
+
+## create image from Dockefile
+
+podman build -t my-flask-1 .
+
+## create pod
+
+podman run -dt --pod new:frontend -p 8080:80 localhost/my-flask-1:latest
+
+
 # create and manage pods
 
 ## create empty pod
