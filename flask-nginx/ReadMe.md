@@ -3,11 +3,17 @@
 
 ## change in to app folder
 
-cd /flask-nginx/app
+cd /flask-nginx/flask
 
 ## create image from Dockefile
 
+cd /flask-nginx/flask
+
 podman build -t my-flask-1 .
+
+cd ..
+
+cd /flask-nginx/nginx
 
 podman build -t my-nginx-1 .
 
