@@ -19,11 +19,12 @@ podman build -t my-nginx-1 .
 
 ## create pod
 
-podman run -dt --pod new:frontend localhost/my-flask-1:latest
+podman run -dt --pod new:frontend -p 8080:80 localhost/my-nginx-1:latest
 
 ## add image to pod
 
-podman run -dt --pod frontend -p 8080:80 localhost/my-nginx-1:latest
+podman run -dt --pod frontend localhost/my-flask-1:latest
+
 
 ## start pod
 
