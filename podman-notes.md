@@ -54,6 +54,13 @@ podman build -t my-flask-1 .
 
 podman run -dt --pod new:frontend -p 8080:80 localhost/my-flask-1:latest
 
+## start pod
+
+podman pod start frontend
+
+## visit
+
+http://35.214.57.82:8080/
 
 # create and manage pods
 
