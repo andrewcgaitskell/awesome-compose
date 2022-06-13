@@ -1,6 +1,6 @@
 # Introduction
 
-This shows how to create a flask app behind ngix using podman
+This shows how to create a flask app behind nginx using podman
 
 # test with nginx & flask app
 
