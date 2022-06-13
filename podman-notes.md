@@ -31,3 +31,9 @@ podman rm -a
 ## remove images
 
 podman -rmi image-id
+
+# create and manage pods
+
+## create empty pod
+
+
