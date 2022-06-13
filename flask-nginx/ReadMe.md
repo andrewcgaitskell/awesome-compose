@@ -13,7 +13,7 @@ podman build -t my-flask-1 .
 
 cd ..
 
-cd /flask-nginx/nginx
+cd nginx
 
 podman build -t my-nginx-1 .
 
