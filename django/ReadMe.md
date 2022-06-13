@@ -1,6 +1,6 @@
 # Introduction
 
-This shows how to create a flask app behind nginx using podman
+This shows how to create a django app using podman
 
 # test with django app
 
