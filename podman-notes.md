@@ -62,6 +62,28 @@ podman pod start frontend
 
 http://35.214.57.82:8080/
 
+## stop pod
+
+podman pod stop frontend
+
+## remove pod
+
+podman pod rm frontend
+
+## list all images
+
+podman images
+
+## remove all images
+
+podman rmi -a
+
+podman -rmi image-id
+
+## list all containers
+
+podman ps -a
+
 # create and manage pods
 
 ## create empty pod
