@@ -1,6 +1,10 @@
 
 # test with flask app
 
+## change in to app folder
+
+cd /flask/app
+
 ## create image from Dockefile
 
 podman build -t my-flask-1 .
