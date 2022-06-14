@@ -20,6 +20,10 @@ podman build -t my-jupyterhub-1 .
 
 podman run -dt --pod new:hub1 -p 8000:8000 localhost/my-nginx-1:latest
 
+# add image to pod
+
+podman run -dt --pod hub1 localhost/my-jupyterhub-1:latest
+
 ## start pod
 
 podman pod start hub1
