@@ -29,11 +29,11 @@ c.Spawner.default_url = '/tree/home/'
 
 c.Spawner.notebook_dir='/srv/jupyterhub/notebooks'
 
-c.Spawner.environment = {
+#c.Spawner.environment = {
  # "http_proxy": "http://your proxy",
  # "https_proxy": "https://your proxy",
- "no_proxy": "127.0.0.1,localhost",
-}
+# "no_proxy": "127.0.0.1,localhost",
+#}
 
 c.Spawner.cmd = '/srv/jupyterhub/env/bin/jupyterhub-singleuser'
 
