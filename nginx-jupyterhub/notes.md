@@ -2,17 +2,23 @@
 
 This shows how to create a jupyterhub using podman
 
+## create nginx image
+
+cd /nginx
+podman build -t my-nginx-1 .
+
 ## change in to app folder
 
+cd ..
 cd /jupyterhub
 
-## create image from Dockefile
+## create jupyterhub image from Dockefile
 
 podman build -t my-jupyterhub-1 .
 
-## create pod
+## create nginx pod
 
-podman run -dt --pod new:hub1 -p 8000:8000 localhost/my-jupyterhub-1:latest
+podman run -dt --pod new:hub1 -p 8000:8000 localhost/my-nginx-1:latest
 
 ## start pod
 
