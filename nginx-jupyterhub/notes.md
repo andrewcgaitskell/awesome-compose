@@ -13,7 +13,7 @@ cd /nginx
 
 podman build -t my-nginx-1 .
 
-## change in to app folder
+## change in to jupyterhub folder
 
 cd ..
 
@@ -41,7 +41,7 @@ podman pod start hub1
 
 ## visit
 
-http://35.214.57.82:8000/dev
+http://35.214.57.82/dev
 
 ## stop pod
 
