@@ -5,11 +5,13 @@ This shows how to create a jupyterhub using podman
 ## create nginx image
 
 cd /nginx
+
 podman build -t my-nginx-1 .
 
 ## change in to app folder
 
 cd ..
+
 cd /jupyterhub
 
 ## create jupyterhub image from Dockefile
