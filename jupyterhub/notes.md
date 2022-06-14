@@ -2,8 +2,6 @@
 
 This shows how to create a jupyterhub using podman
 
-# test with nginx & flask app
-
 ## change in to app folder
 
 cd /jupyterhub
