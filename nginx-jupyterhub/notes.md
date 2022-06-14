@@ -18,6 +18,10 @@ cd /jupyterhub
 
 podman build -t my-jupyterhub-1 .
 
+this takes a very long time
+
+it is mainly the rebuld of jupyter lab
+
 ## create nginx pod
 
 podman run -dt --pod new:hub1 -p 8000:8000 localhost/my-nginx-1:latest
