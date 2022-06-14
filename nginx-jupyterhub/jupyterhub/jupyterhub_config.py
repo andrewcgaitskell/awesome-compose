@@ -6,9 +6,9 @@ c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
 
 c.LocalAuthenticator.create_system_users = True
 
-c.JupyterHub.bind_url = 'http://0.0.0.0:8000/'
+#c.JupyterHub.bind_url = 'http://0.0.0.0:8000/'
 
-#c.JupyterHub.bind_url = 'http://jupyterhub:8000/dev'
+c.JupyterHub.bind_url = 'http://localhost:8000/dev'
 #c.JupyterHub.hub_ip = 'jupyterhub'
 #c.JupyterHub.hub_port = 8000
 
@@ -29,11 +29,11 @@ c.Spawner.default_url = '/tree/home/'
 
 c.Spawner.notebook_dir='/srv/jupyterhub/notebooks'
 
-#c.Spawner.environment = {
+c.Spawner.environment = {
  # "http_proxy": "http://your proxy",
  # "https_proxy": "https://your proxy",
- # "no_proxy": "127.0.0.1,localhost",
-#}
+ "no_proxy": "127.0.0.1,localhost",
+}
 
 c.Spawner.cmd = '/srv/jupyterhub/env/bin/jupyterhub-singleuser'
 
