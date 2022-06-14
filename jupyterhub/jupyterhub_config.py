@@ -6,9 +6,9 @@ c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
 
 c.LocalAuthenticator.create_system_users = True
 
-#c.JupyterHub.bind_url = 'http://0.0.0.0:8000/'
+c.JupyterHub.bind_url = 'http://0.0.0.0:8000/'
 
-c.JupyterHub.bind_url = 'http://jupyterhub:8000/dev'
+#c.JupyterHub.bind_url = 'http://jupyterhub:8000/dev'
 #c.JupyterHub.hub_ip = 'jupyterhub'
 #c.JupyterHub.hub_port = 8000
 
@@ -92,7 +92,7 @@ c.JupyterHub.hub_connect_ip = 'jupyterhub_dockerfile'
 ## Docker spawner
 c.JupyterHub.spawner_class='sudospawner.SudoSpawner'
 
-c.Spawner.default_url = '/srv/jupyterhub/notebooks' # %U will be replaced with the username
+#c.Spawner.default_url = '/srv/jupyterhub/notebooks' # %U will be replaced with the username
 
 #c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
 #c.DockerSpawner.image = os.environ['DOCKER_JUPYTER_CONTAINER']
@@ -107,7 +107,7 @@ c.DockerSpawner.image = 'jupyter/base-notebook:latest'
 #notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR')
 
 # tell the user containers to connect to our docker network
-c.DockerSpawner.network_name = 'jupyterhub'
+#c.DockerSpawner.network_name = 'jupyterhub'
 c.DockerSpawner.notebook_dir = notebook_dir
 c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
 
