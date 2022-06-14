@@ -20,7 +20,7 @@ podman build -t my-jupyterhub-1 .
 
 this takes a very long time
 
-it is mainly the rebuld of jupyter lab
+it is mainly the rebuild of jupyter lab
 
 ## create nginx pod
 
