@@ -2,6 +2,11 @@
 
 This shows how to create a jupyterhub using podman
 
+## reset podman
+
+podman system reset
+
+
 ## create nginx image
 
 cd /nginx
