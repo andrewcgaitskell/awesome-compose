@@ -29,7 +29,7 @@ it is mainly the rebuild of jupyter lab
 
 ## create nginx pod
 
-podman run -dt --pod new:hub1 -p 8000:8000 localhost/my-nginx-1:latest
+podman run -dt --pod new:hub1 -p 80:80 localhost/my-nginx-1:latest
 
 # add image to pod
 
