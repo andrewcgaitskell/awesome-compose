@@ -25,7 +25,7 @@ c.ConfigurableHTTPProxy.pid_file = '/srv/jupyterhub/jupyterhub-proxy.pid'
 
 c.SudoSpawner.sudospawner_path = '/srv/jupyterhub/env/bin/sudospawner'
 
-c.Spawner.default_url = '/tree/home/'
+c.Spawner.default_url = '/lab'
 
 c.Spawner.notebook_dir='/srv/jupyterhub/notebooks'
 
@@ -41,6 +41,7 @@ c.Spawner.cmd = '/srv/jupyterhub/env/bin/jupyterhub-singleuser'
 notebook_dir = pathtofile
 c.DockerSpawner.notebook_dir = notebook_dir
 
+c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
 
 #c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
 
