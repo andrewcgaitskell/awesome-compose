@@ -86,7 +86,7 @@ c.Authenticator.allowed_users = {'jupyterhub'}
 #### c.JupyterHub.hub_ip = '0.0.0.0'
 # the hostname/ip that should be used to connect to the hub
 # this is usually the hub container's name
-c.JupyterHub.hub_connect_ip = 'jupyterhub_dockerfile'
+c.JupyterHub.hub_connect_ip = 'localhost'
 
 
 ## Docker spawner
@@ -107,7 +107,7 @@ c.DockerSpawner.image = 'jupyter/base-notebook:latest'
 #notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR')
 
 # tell the user containers to connect to our docker network
-#c.DockerSpawner.network_name = 'jupyterhub'
+c.DockerSpawner.network_name = 'localhost'
 c.DockerSpawner.notebook_dir = notebook_dir
 c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
 
