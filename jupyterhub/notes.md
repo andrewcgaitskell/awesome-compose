@@ -1,8 +1,6 @@
-hello
-
 # Introduction
 
-This shows how to create a flask app behind nginx using podman
+This shows how to create a jupyterhub using podman
 
 # test with nginx & flask app
 
@@ -12,40 +10,27 @@ cd /jupyterhub
 
 ## create image from Dockefile
 
-cd /flask-nginx/flask
-
-podman build -t my-flask-1 .
-
-cd ..
-
-cd nginx
-
-podman build -t my-nginx-1 .
+podman build -t my-jupyterhub-1 .
 
 ## create pod
 
-podman run -dt --pod new:frontend -p 8080:80 localhost/my-nginx-1:latest
-
-## add image to pod
-
-podman run -dt --pod frontend localhost/my-flask-1:latest
-
+podman run -dt --pod new:hub1 -p 8000:8000 localhost/my-jupyterhub-1:latest
 
 ## start pod
 
-podman pod start frontend
+podman pod start hub1
 
 ## visit
 
-http://35.214.57.82:8080/
+http://35.214.57.82:8000/dev
 
 ## stop pod
 
-podman pod stop frontend
+podman pod stop hub1
 
 ## remove pod
 
-podman pod rm frontend
+podman pod rm hub1
 
 ## list all images
 
