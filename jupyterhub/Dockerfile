@@ -1,105 +1,81 @@
+FROM ubuntu:latest
+RUN apt-get update && apt-get -y update \
+    && apt-get -y install openssl \
+    && apt-get -y install sudo \
+    && apt-get install -y apt-utils dialog \
+    && apt-get install -y build-essential python3.10 python3-pip python3-dev \
+    && apt-get -y install nodejs npm \
+    && apt-get -y install python3.10-venv \
+    && apt-get -y install python3-mysqldb \
+    && apt-get -y install libmysqlclient-dev
 
-# https://github.com/jupyterhub/jupyterhub/blob/main/Dockerfile
+RUN npm install -g configurable-http-proxy
 
-# An incomplete base Docker image for running JupyterHub
-#
-# Add your configuration to create a complete derivative Docker image.
-#
-# Include your configuration settings by starting with one of two options:
-#
-# Option 1:
-#
-# FROM jupyterhub/jupyterhub:latest
-#
-# And put your configuration file jupyterhub_config.py in /srv/jupyterhub/jupyterhub_config.py.
-#
-# Option 2:
-#
-# Or you can create your jupyterhub config and database on the host machine, and mount it with:
-#
-# docker run -v $PWD:/srv/jupyterhub -t jupyterhub/jupyterhub
-#
-# NOTE
-# If you base on jupyterhub/jupyterhub-onbuild
-# your jupyterhub_config.py will be added automatically
-# from your docker directory.
+RUN mkdir srv/jupyterhub
+RUN mkdir srv/jupyterhub/home
 
-ARG BASE_IMAGE=ubuntu:focal-20200729
-FROM $BASE_IMAGE AS builder
+RUN mkdir srv/jupyterhub/notebooks
 
-USER root
-
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update \
- && apt-get install -yq --no-install-recommends \
-    build-essential \
-    ca-certificates \
-    locales \
-    python3-dev \
-    python3-pip \
-    python3-pycurl \
-    nodejs \
-    npm \
-    yarn \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-RUN python3 -m pip install --upgrade setuptools pip wheel
-
-# copy everything except whats in .dockerignore, its a
-# compromise between needing to rebuild and maintaining
-# what needs to be part of the build
-COPY . /src/jupyterhub/
-WORKDIR /src/jupyterhub
-
-# Build client component packages (they will be copied into ./share and
-# packaged with the built wheel.)
-RUN python3 setup.py bdist_wheel
-RUN python3 -m pip wheel --wheel-dir wheelhouse dist/*.whl
+ARG user=jupyterhub
+ARG home=/srv/jupyterhub/home/$user
+RUN addgroup --system docker
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home $home \
+    --ingroup docker \
+    $user
 
 
-FROM $BASE_IMAGE
+RUN usermod -aG shadow jupyterhub
 
-USER root
+RUN echo "jupyterhub:jupyterhub" | chpasswd
 
-ENV DEBIAN_FRONTEND=noninteractive
+RUN usermod -aG sudo jupyterhub
 
-RUN apt-get update \
- && apt-get install -yq --no-install-recommends \
-    ca-certificates \
-    curl \
-    gnupg \
-    locales \
-    python3-pip \
-    python3-pycurl \
-    nodejs \
-    npm \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+RUN groupadd jupyterhub
 
-ENV SHELL=/bin/bash \
-    LC_ALL=en_US.UTF-8 \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+RUN usermod -aG jupyterhub jupyterhub
 
-RUN  locale-gen $LC_ALL
+RUN chown -R jupyterhub:jupyterhub /srv/jupyterhub
 
-# always make sure pip is up to date!
-RUN python3 -m pip install --no-cache --upgrade setuptools pip
+#ensures that /var/run/docker.sock exists
+RUN touch /var/run/docker.sock
 
-RUN npm install -g configurable-http-proxy@^4.2.0 \
- && rm -rf ~/.npm
+#changes the ownership of /var/run/docker.sock
+RUN chown jupyterhub:jupyterhub /var/run/docker.sock
 
-# install the wheels we built in the first stage
-COPY --from=builder /src/jupyterhub/wheelhouse /tmp/wheelhouse
-RUN python3 -m pip install --no-cache /tmp/wheelhouse/*
+# Give rhea passwordless sudo access to run the sudospawner mediator on behalf of users:
+ADD sudoers /tmp/sudoers
+RUN cat /tmp/sudoers >> /etc/sudoers
+RUN rm /tmp/sudoers
 
-RUN mkdir -p /srv/jupyterhub/
-WORKDIR /srv/jupyterhub/
+RUN chown jupyterhub .
 
-EXPOSE 8000
+USER jupyterhub
 
-LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
-LABEL org.jupyter.service="jupyterhub"
+ENV VIRTUAL_ENV=/srv/jupyterhub/env
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-CMD ["jupyterhub"]
+# Install dependencies:
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+RUN jupyter lab build
+
+RUN pip -q install pip --upgrade
+RUN pip install wheel
+
+WORKDIR /srv/jupyterhub
+
+#RUN touch jupyterhub_cookie_secret
+#RUN chmod g+rw jupyterhub_cookie_secret
+#RUN openssl rand -hex 32 > jupyterhub_cookie_secret
+#RUN chmod 600 jupyterhub_cookie_secret
+
+RUN jupyterhub --generate-config
+
+COPY . .
+#EXPOSE 8000
+CMD . /srv/jupyterhub/env/bin/activate && exec jupyterhub
